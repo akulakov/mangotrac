@@ -1,0 +1,119 @@
+{% extends "issbase.html" %}
+{% load issues %}
+
+{% block title %}IssueGrok -
+    {% if modelform.instance.pk %}
+        Update Issue: {{ modelform.instance.title }}
+    {% else %}
+        Add Issue
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<style type="text/css" media="screen">
+    #id_body { width: 600px; height: 250px; }
+    li { list-style-type: none; padding:5; margin:5; }
+
+    #preview {
+         border: 2px solid #eee;
+         padding: 10px;
+         width: 1000px;
+    }
+    #preview li { list-style-type: disc; }
+    #buttons1 { width: 700px; }
+    .help { font-size: 0.8em; }
+    td { vertical-align: top; }
+
+    {% if bold_labels %}
+        .fld-label { font-weight: bold !important }
+    {% endif %}
+</style>
+<div class="main">
+    <form action="" method="POST">{% csrf_token %}
+        <div class="submit"><input class="submit-btn" type="submit" value="Save"></div>
+        <div class="clear"></div>
+
+        <fieldset class="module aligned2">
+
+        {% for name in modelform.fldorder %}
+
+                {% with modelform|get:name as fld %}
+                    <div class="form-row">
+                        <label class="fld-label {% if fld.field.required %} required {% endif %}">
+                        {{ fld.label }}
+
+                        </label>
+
+
+                        {{ fld }} {{ fld.errors }}
+
+                        <!-- help_text does not show up on bound fields???! -->
+                        {% if name == "difficulty" %}
+                            <span class="help">(integer; higher value for higher difficulty)</span>
+                        {% endif %}
+                        {% if name == "progress" %}
+                            <span class="help">(percent complete, enter as a whole number without the % sign)</span>
+                        {% endif %}
+
+                        {% if name == "description" %}
+                            <!-- PREVIEW -->
+                            {% if preview %}
+                                <h4>Preview</h4>
+                                <div id="preview">{{ preview|safe }}</div>
+                            {% endif %}
+                            <div id="buttons1">
+                            <input id="preview-btn" type="submit" name="preview" value="Preview">
+                            </div>
+                            <!-- END PREVIEW -->
+
+                            <!-- STATUS, OWNER, PROJECT -->
+                            <table class="table1" border="0" cellpadding="2" cellspacing="2">
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Owner</th>
+                                    <th>Project</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ modelform.status }}</td>
+                                    <td>
+                                        {{ modelform.owner }}<br />
+                                        CC: {{ modelform.cc }}
+                                    </td>
+                                    <td>{{ modelform.project_ }}</td>
+                                </tr>
+                            </table>
+                            <!-- END STATUS, OWNER, PROJECT -->
+
+                            <!-- TYPE, VERSION -->
+                            <table class="table1" border="0" cellpadding="2" cellspacing="2">
+                                <tr>
+                                    <th>Priority</th>
+                                    <th>Version</th>
+                                    <th>Type</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ modelform.priority_code }}</td>
+                                    <td>{{ modelform.version }}</td>
+                                    <td>{{ modelform.type }}</td>
+                                </tr>
+                            </table>
+                            <!-- END TYPE, VERSION -->
+                        {% endif %}
+
+                    </div>
+                {% endwith %}
+
+        {% endfor %}
+
+        </fieldset>
+
+        <div class="clear"></div>
+        <div class="submit"><input class="submit-btn" type="submit" value="Save"></div>
+    </form>
+    {% if modelform.instance.pk %}
+        <div style="clear:both; margin: 10px;">
+        </div>
+        <a href="{% url "issue" modelform.instance.pk %}" style="float:right; padding: 15px;">view issue</a>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "issbase.html" %}
+{% load issues %}
+
+{% block title %}IssueGrok -
+    {% if modelform.instance.pk %}
+        Update Report: {{ modelform.instance.name }}
+    {% else %}
+        Create Report
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<style type="text/css" media="screen">
+    #id_body { width: 600px; height: 250px; }
+    #id_name { width: 350px; }
+    #id_category { width: 350px; }
+    #id_comment { width: 350px; }
+    pre { margin-bottom: 25px }
+    td { vertical-align: top; }
+    ul { list-style-type: none; }
+</style>
+<div class="main">
+
+<table><tr><td>
+    <form action="" method="POST">{% csrf_token %}
+        <fieldset class="module aligned">
+
+		<ul>
+        {{ modelform.as_ul }}
+        </ul>
+
+        </fieldset>
+
+        <div id="submit"><input id="submit-btn" type="submit" value="Save"></div>
+    </form>
+
+</td><td>&nbsp;</td><td><!-- ************* -->
+
+<b>columns:</b>
+<pre>
+id
+title
+description
+status
+owner
+cc
+created
+updated
+project
+priority_code
+progress
+difficulty
+type
+version
+tags
+creator?
+</pre>
+
+<b>sample filters:</b>
+<pre>
+project = issues
+owner = ak                          # owner with username 'ak'
+priority_code = 1, 2                # priority 1 OR priority 2
+priority_code__priority__lt = 6     # priority less than 6
+difficulty__gt = 5                  # difficulty greater than 5
+description__contains = something
+
+status = 2 - waiting for feedback, 3 - ready to test
+
+status = 1 - open
+status = 2 - waiting for feedback
+status = 3 - ready to test
+status = 4 - done
+status = 5 - won't fix
+status = 6 - future
+</pre>
+</td></tr></table>
+</div>
+{% endblock %}

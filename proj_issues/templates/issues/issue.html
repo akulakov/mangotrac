@@ -1,0 +1,119 @@
+{% extends "issbase.html" %}
+
+{% load issues %}
+{% block extrahead %}
+    <link rel="stylesheet" href="/static/css/issues.css" type="text/css" media="screen" charset="utf-8" />
+    <style type="text/css" media="screen">
+        .body { margin-bottom: 25px; }
+        .label { padding-right: 20px; font-weight: bold; }
+        .issue { padding-left: 10px; }
+        h1 { font-size: 1.7em; }
+        li { list-style-type: none; padding:5; margin:5; }
+
+        #edit { padding-bottom: 8px }
+        #fields { border-bottom: 1px solid #999; }
+        .body li { list-style-type: disc; }
+        #files { padding-bottom: 0; }
+        #addc { width: 575px; }
+        #submit { padding-top: 10px }
+    </style>
+{% endblock %}
+
+{% block title %}IssueGrok - Issue: {{ issue.title }}{% endblock %}
+
+{% block content %}
+<div class="main">
+
+    <!-- ISSUE -->
+    <div>
+        <div class="issue">
+        <h1>#{{ issue.pk }}: {{ issue.title }}</h1>
+        <div id="fields">
+            <table>
+            {% for fld in fields %}
+                {% with issue|getattribute:fld as value %}
+                    {% if value|val_or_rel_manager %}
+                        <tr><td class="label">
+                            {% if fld == "priority_code" %}
+                                Priority:
+                            {% else %}
+                                {{ fld|capfirst }}:
+                            {% endif %}
+                        </td><td class="value">
+                            {{ value|val_or_rel_manager }}
+                        </td></tr>
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+            </table>
+
+        </div>
+        <div>
+            <div class="body">{{ issue.description_html|safe }}</div>
+
+            <div id="edit">
+                  <a href="{% url 'update_issue_detail' mfpk=issue.pk %}">edit</a> |
+                  <a href="{% url 'attachments' issue.pk %}">add / remove attachments</a>
+            </div>
+            <div id="files">
+            {% if issue.files.all %}
+                <h3>Attachments</h3>
+                {% for attachment in issue.files.all %}
+                    <div><a href="/media/{{ attachment }}">{{ attachment }}</a></div>
+                {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+        </div>
+
+        <!-- LIST OF COMMENTS -->
+
+        {% if comment_list %} <p>Comments:</p> {% endif %}
+
+        {% for comment in comment_list %}
+            <div class="comment">
+                <div class="time">{{ comment.created }} | {{ comment.creator }}
+                {% if request.user.is_staff %}
+                    <div class="edit-links">
+                    <a href="{% url 'update_comment' mfpk=comment.pk %}">edit</a>
+                    | <a href="{% url 'delete_comment' comment.pk %}">delete</a>
+                    </div>
+                {% endif %}
+                </div>
+                <div class="body">{{ comment.description_html|safe }}</div>
+            </div>
+        {% endfor %}
+
+        <!-- // LIST OF COMMENTS -->
+
+
+        <p>{% include "paginator.html" %}</p>
+
+        <!-- COMMENT FORM -->
+
+        <div id="addc"><b>Add a comment</b>
+        <form action="" method="POST">{% csrf_token %}
+            <div id="cform">
+                <p> {{ modelform.description }} {{ modelform.description.errors }} </p>
+            </div>
+
+                <table class="table1" border="0" cellpadding="2" cellspacing="2">
+                    <tr>
+                        <th>Status</th>
+                        <th>Owner</th>
+                    </tr>
+                    <tr>
+                        <td>{{ modelform2.status }}</td>
+                        <td>{{ modelform2.owner }}</td>
+                    </tr>
+                </table>
+
+            <div id="submit"> <input type="submit" value="Submit" /> </div>
+        </form>
+        </div>
+
+        <!-- // COMMENT FORM -->
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+.env
+*.pyc
+*.pyo
+*.swp
+*.swo
+dummy_*
+development.py
+bin
+setup.ini
+local-req.txt
+issues.db
+grepper.py
+local_settings.py

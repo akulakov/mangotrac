@@ -1,0 +1,61 @@
+{% extends "issbase.html" %}
+
+{% block title %}IssueGrok - Report: {{ report.name }}{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="/static/css/issues.css" type="text/css" media="screen" charset="utf-8" />
+    <style type="text/css" media="screen">
+        #id_body { width: 520px; height: 200px; }
+        table td.border, th {
+             border-bottom: 1px solid #ddd;
+             border-right: 1px solid #ddd;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <h1>{{ report }}</h1>
+    {% if report.category %}
+        <p>category: {{ report.category }}</p>
+    {% endif %}
+    {% if report.comment %}
+        <p>comment: {{ report.comment }}</p>
+    {% endif %}
+
+    <p>filters: {{ report.filter_list }}</p>
+    <p>sort by: {{ report.sort_list }}</p>
+    <p>creator: {{ report.creator }} | created: {{ report.created }} | updated: {{ report.updated }}</p>
+
+            <table border="0" cellpadding="6" cellspacing="2">
+                <!-- TABLE HEADERS -->
+                <tr>
+                    {% for header in headers %}
+                        <th>{{ header }}</th>
+                    {% endfor %}
+                </tr>
+
+                <!-- ROWS -->
+                {% for row in rows %}
+                    <tr>
+                        {% for val, border, is_pk in row %}
+                            <!-- <td>{{ val|default_if_none:'' }}</td> -->
+                            <td class="{% if border %}border{% endif %}">{{ val|safe }}</td>
+
+                            {% if is_pk %}
+                                <td class="{% if border %}border{% endif %}"><a href="{% url "issue" val %}">link</a></td>
+                            {% else %}
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+
+            </table>
+
+    <p>
+        <a href="{% url "update_report" report.pk %}">edit</a> |
+        <a href="{% url "duplicate_report" report.pk %}">duplicate</a>
+    </p>
+
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "issbase.html" %}
+
+{% block title %}IssueGrok - Reports{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="/static/css/issues.css" type="text/css" media="screen" charset="utf-8" />
+    <style type="text/css" media="screen">
+        .cat { background: #fff; }
+        #id_body { width: 520px; height: 200px; }
+
+        table td.border, th {
+             border-bottom: 1px solid #ddd;
+             border-right: 1px solid #ddd;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+        <table border="0" cellpadding="4" cellspacing="5">
+            <tr>
+                <th>category</th>
+                <th>report</th>
+                <th>comment</th>
+                <th>filters</th>
+            </tr>
+            <tr>
+        {% for report in object_list %}
+            <td class="cat">
+            {% ifchanged report.category %}
+                {% if report.category %}
+                    {{ report.category }}
+                {% endif %}
+            {% endifchanged %}
+            </td>
+                <td><a href="{{ report.get_absolute_url }}">{{ report }}</a></td>
+                <td>{{ report.comment }}</td>
+                <td>{{ report.filter_list }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

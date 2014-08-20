@@ -1,0 +1,35 @@
+{% extends "issbase.html" %}
+{% load issues %}
+{% block content %}
+<style type="text/css" media="screen">
+    #id_body { width: 600px; height: 250px; }
+    .clear { clear: both }
+</style>
+<div class="main">
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <div id="submit"><input id="submit-btn" type="submit" value="Save"></div>
+    <br /><br /><br />
+    <div class="clear"></div>
+        {{ formset.management_form }}
+
+        <!-- FOR EACH FORM -->
+        {% for form in formset %}
+            {% if form.errors %} {{ form.errors }} {% endif %}
+            <fieldset class="module aligned">
+                {{ form.id }}
+
+                <!-- FOR EACH FIELD -->
+                {% for fld in form.visible_fields %}
+                    <div class="form-row">
+                        <label class="{% if fld.field.required %} required {% endif %}">{{ fld.label }}</label>
+                        {{ fld }}
+                    </div>
+                {% endfor %}
+
+            </fieldset><br />
+        {% endfor %}
+
+        <div id="submit"><input id="submit-btn" type="submit" value="Save"></div>
+    </form>
+</div>
+{% endblock %}
