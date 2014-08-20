@@ -99,6 +99,9 @@ above urlconf line.
 Most of the views are using staff_member_required() decorator, you can change or remove the
 decorator as needed for each view.
 
+Email notifications will be sent to: issue creator and owner; if owner is changed, email will be sent to both
+old and new owner.
+
 Settings
 ===============================================================================================
 
