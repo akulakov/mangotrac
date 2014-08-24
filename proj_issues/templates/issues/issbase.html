@@ -22,7 +22,7 @@
         <div id="menu">
             {% block nav-global %}
                 <h3>{{ app_name }}</h3>
-                <a href="{% url 'admin:issues_issue_changelist' %}?closed__exact=0&o=5.-3">Issues</a>
+                <a href="{% url 'admin:issues_issue_changelist' %}?o=5.-3">Issues</a>
                 <a href="{% url 'create_issue' %}">Add Issue</a>
                 <a href="{% url 'add_issues' %}">Add Multiple Issues</a>
                 <a href="{% url 'reports' %}">Reports</a>
