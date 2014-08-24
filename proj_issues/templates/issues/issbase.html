@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 {% load staticfiles %}
 <head>
-    <title>{% block title %}IssueGrok{% endblock %}</title>
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
     <!-- <link rel="stylesheet" href="{% static "css/normalize.css" %}" type="text/css" media="screen" charset="utf-8" /> -->
     <link rel="stylesheet" href="{% static "css/issues.css" %}" type="text/css" media="screen" charset="utf-8" />
     {% block extrahead %}{% endblock %}
@@ -21,7 +21,7 @@
 
         <div id="menu">
             {% block nav-global %}
-                <h3>IssueGrok</h3>
+                <h3>{{ app_name }}</h3>
                 <a href="{% url 'admin:issues_issue_changelist' %}?closed__exact=0&o=5.-3">Issues</a>
                 <a href="{% url 'create_issue' %}">Add Issue</a>
                 <a href="{% url 'add_issues' %}">Add Multiple Issues</a>

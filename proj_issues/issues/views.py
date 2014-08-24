@@ -26,6 +26,8 @@ from mcbv.detail import DetailView
 from mcbv.list_custom import DetailListCreateView, ListView
 # }}}
 
+def context_processor(request):
+    return dict(app_name="MangoTrac")
 
 # add_issue delete_issue
 @staff_member_required

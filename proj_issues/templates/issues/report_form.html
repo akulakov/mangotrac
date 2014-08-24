@@ -1,7 +1,7 @@
 {% extends "issbase.html" %}
 {% load issues %}
 
-{% block title %}IssueGrok -
+{% block title %}{{ app_name }} -
     {% if modelform.instance.pk %}
         Update Report: {{ modelform.instance.name }}
     {% else %}

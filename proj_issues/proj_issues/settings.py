@@ -60,6 +60,17 @@ TEMPLATE_DIRS = [
                  BASE_DIR + "/templates/issues/",
                  ]
 
+TEMPLATE_CONTEXT_PROCESSORS = \
+    ("django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    "issues.views.context_processor",
+     )
+
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # EMAIL_BACKEND   = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH   = '/tmp/emails/'
