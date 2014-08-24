@@ -4,6 +4,9 @@ MangoTrac
 MangoTrac is an issue tracker based on Django admin app. It's targeted at small and medium-sized
 teams and projects.
 
+
+![Screenshot](https://github.com/akulakov/mangotrac/blob/master/ss2.gif)
+
 Setup
 ===============================================================================================
 
