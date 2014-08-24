@@ -125,3 +125,7 @@ which status codes stand for 'open', 'wontfix', 'done', so if you change their v
 to update them in SPECIAL_STATUS_CODES as well.
 
 Note that other status codes are not used by the app logic and therefore can be set to anything.
+
+
+----
+Many features designed and supported by Scott S. Lawton, PreFab Software, Inc.
