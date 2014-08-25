@@ -58,6 +58,11 @@ Limitations
 
  - no built-in wiki
 
+ - issue listing may not be exposed to non-staff users (if this is needed, one option would be to add a
+   simpler listing for other users, another option would be to customize the admin to remove this restriction,
+   third option -- probably the hardest -- is to extract the change_list functionality out of the admin and
+   create a custom list view)
+
  - simple permissions system with two levels:
 
     - users set as staff members can list, add / update issues and reports
