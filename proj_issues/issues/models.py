@@ -19,12 +19,16 @@ class Project(BaseModel):
     project = CharField(max_length=60)
     def __unicode__(self):
         return self.project
+    class Meta:
+        ordering = ["project"]
 
 class Version(BaseModel):
     version = CharField(max_length=10)
 
     def __unicode__(self):
         return self.version
+    class Meta:
+        ordering = ["version"]
 
 class Status(BaseModel):
     """Status code e.g. open / done, etc."""
@@ -71,6 +75,8 @@ class Tag(BaseModel):
     def __unicode__(self):
         return self.tag
 
+    class Meta:
+        ordering = ["tag"]
 
 class Report(BaseModel):
     # url     = URLField(max_length=200)
